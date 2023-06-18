@@ -1,0 +1,30 @@
+.contenedor{
+    width: 33%;
+    background-color: rgb(85, 84, 84 ,0.8);
+    border-radius: 10px;
+    color: #1DAB5D;
+    border: 5px solid #168046;
+    border-color: #0F562F;
+}
+
+.imagen{
+    width: 70%;
+    border-radius: 10px;
+    margin: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.boton{
+    margin: 5px;
+    position: absolute;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.671);
+    border-radius: 20px;
+    border: 0px;
+
+}
+
+.lista{
+    list-style-type: none;
+}
