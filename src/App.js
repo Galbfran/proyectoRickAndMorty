@@ -1,42 +1,46 @@
 import "./App.css";
 //Componentes
-import Cards from "./components/Cards/Cards";
-import NavBar from "./components/Nav/Navbar";
+import Cards from "./components/Cards/Cards";//
+import NavBar from "./components/Nav/Navbar";//
 import Form from "./components/Form/Form";
 
 //Rutas
-import About from "./components/About/About";
-import Detail from "./components/Detail/Detail";
+import About from "./components/About/About";//
+import Detail from "./components/Detail/Detail";//
 
 //Hooks
-import axios from "axios";
-import {useState , useEffect} from "react";
-import { Route , Routes , useLocation , useNavigate} from "react-router-dom";
+import axios from "axios";//
+import {useState , useEffect} from "react";//
+import { Route , Routes , useLocation , useNavigate} from "react-router-dom";//
 import Favorites from "./components/Favoritos/Favorites";
 
-function App() {
-  const [characters, setCharacters] = useState([]);
-  const location = useLocation();
-  const [access , setAccess] = useState(false);
-  const navigate = useNavigate()
-  
-  const username = 'francogalbiati@gmail.com'
-  const password = '123asdf'
 
-  const login = (userData) =>{
-    if(userData.username === username && userData.password === password){
-      setAccess(true);
-      navigate('/home')
-    }
+
+function App() {
+  const [characters, setCharacters] = useState([]);//
+  const [access , setAccess] = useState(true);//
+  const location = useLocation();//
+  const navigate = useNavigate();
+
+
+
+  function login(userData) {
+    const { email, password } = userData;
+    const URL = 'http://localhost:3001/rickandmorty/login/';
+    axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
+        const { access } = data;
+        setAccess(data);
+        access && navigate('/home');
+    });
   }
 
   useEffect(() =>{
     !access && navigate('/')
-  },[])
+  },[access , navigate])
 
   function searchHandler(id) {
     // setCharacters([...characters, example]);
-    axios(`https://localhost:3001/rickandmorty/character/${id}`).then(({data}) => {
+    axios(`http://localhost:3001/rickandmorty/onsearch/${id}`).then(({data}) => {
       if (data.name) {
         setCharacters((oldChars) => [...oldChars, data]);
       } else {
@@ -47,6 +51,7 @@ function App() {
 
   function closeHandler(id) {
     let deleted = characters.filter((character) => character.id !== Number(id));
+    
     setCharacters(deleted);
   }
 
@@ -76,16 +81,17 @@ function App() {
   }
 
   return (
-    <div className="App">
-      {location.pathname === '/' ? <Form login={login}/> : <NavBar onSearch={searchHandler} random={randomHandler} />}
-      <Routes>
-        <Route path="/home" element={<Cards characters={characters} onClose={closeHandler}/> }/>
-        <Route path="/about" element={<About/>} />
-        <Route path="/favorites" element={<Favorites/>}/>
-        <Route path="/detail/:detailId" element={<Detail/>}/>
-      </Routes>
-      
-    </div>
+    
+      <div className="App">
+        {location.pathname === '/' ? <Form login={login}/> : <NavBar onSearch={searchHandler} random={randomHandler} />}
+        <Routes>
+          <Route path="/home" element={<Cards characters={characters} onClose={closeHandler}/> }/>
+          <Route path="/about" element={<About/>} />
+          <Route path="/favorites" element={<Favorites/>}/>
+          <Route path="/detail/:detailId" element={<Detail/>}/>
+        </Routes>
+      </div>
+    
   );
 }
 

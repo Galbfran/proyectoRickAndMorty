@@ -8,7 +8,7 @@ const Detail = () =>{
 
     const [character, setCharacter] = useState({})
     useEffect(() => {
-        axios(`https://localhost:3001/rickandmorty/character/${detailId}`).then(({ data }) => {
+        axios(`http://localhost:3001/rickandmorty/onsearch/${detailId}`).then(({ data }) => {
             if (data.name) {
                 setCharacter(data);
             } else {
