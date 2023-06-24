@@ -26,7 +26,7 @@ function App() {
 
   function login(userData) {
     const { email, password } = userData;
-    const URL = 'http://localhost:3001/rickandmorty/login/';
+    const URL = 'http://localhost:3001/rickandmorty/login';
     axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
         const { access } = data;
         setAccess(data);
@@ -40,7 +40,7 @@ function App() {
 
   function searchHandler(id) {
     // setCharacters([...characters, example]);
-    axios(`http://localhost:3001/rickandmorty/onsearch/${id}`).then(({data}) => {
+    axios(`http://localhost:3001/rickandmorty/character/${id}`).then(({data}) => {
       if (data.name) {
         setCharacters((oldChars) => [...oldChars, data]);
       } else {
